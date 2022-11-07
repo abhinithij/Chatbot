@@ -18,7 +18,7 @@ public class Magpie4
 	 */	
 	public String getGreeting()
 	{
-		return "Hello, let's talk.";
+		return "Hello, let's talk. Do you have anything interesting to start our conversation?";
 	}
 	
 	/**
@@ -31,28 +31,25 @@ public class Magpie4
 	public String getResponse(String statement)
 	{
 		String response = "";
-		if (statement.length() == 0)
-		{
+		if (statement.length() == 0) {
 			response = "Say something, please.";
-		}
-
-		else if (findKeyword(statement, "no") >= 0)
-		{
-			response = "Why so negative?";
-		}
-		else if (findKeyword(statement, "mother") >= 0
+		} else if (findKeyword(statement, "no") >= 0) {
+			response = "What's the problem? Perhaps traveling can make everything better? I have a couple great tips to share!";
+		} else if (findKeyword(statement, "mother") >= 0
 				|| findKeyword(statement, "father") >= 0
 				|| findKeyword(statement, "sister") >= 0
-				|| findKeyword(statement, "brother") >= 0)
-		{
-			response = "Tell me more about your family.";
+				|| findKeyword(statement, "brother") >= 0) {
+			response = "Tell me more about your family. Maybe I can suggest some places to travel that could be fun!";
 		}
 
 		// Responses which require transformations
 		else if (findKeyword(statement, "I want to", 0) >= 0)
 		{
 			response = transformIWantToStatement(statement);
-		}
+      response += " Would you like some travel tips?";
+		} else if (findKeyword(statement, "yes") >= 0) {
+      response = travelTips();
+    }
 
 		else
 		{
@@ -123,7 +120,26 @@ public class Magpie4
 	}
 	
 	
+  private String travelTips() {
+    final int NUMBER_OF_RESPONSES = 4;
+		double r = Math.random();
+		int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
+		String response = "";
+		
+		if (whichResponse == 0) {
+			response = "I don't really know what else to say. That;s a really interesting point.";
+		} else if (whichResponse == 1) {
+			response = "Hmmm. That's interesting";
+		} else if (whichResponse == 2) {
+			response = "I think that's cool! I also have a fun fact to share. Did you know that jet lag is worse after traveling east than west?";
+		}
+		else if (whichResponse == 3) {
+			response = "I'm a bit confused right now. I suggest elaborating a little more or changing the topic so that I can follow!";
+		}
 
+		return response;
+  }
+  
 	
 	
 	/**
@@ -197,14 +213,14 @@ public class Magpie4
 		String response = "";
 		
 		if (whichResponse == 0) {
-			response = "I don't really know what else to say. I think we should talk about travel";
+			response = "I don't really know what else to say. That;s a really interesting point.";
 		} else if (whichResponse == 1) {
 			response = "Hmmm. That's interesting";
 		} else if (whichResponse == 2) {
-			response = "Do you really think so?";
+			response = "I think that's cool! I also have a fun fact to share. Did you know that jet lag is worse after traveling east than west?";
 		}
 		else if (whichResponse == 3) {
-			response = "You don't say.";
+			response = "I'm a bit confused right now. I suggest elaborating a little more or changing the topic so that I can follow!";
 		}
 
 		return response;
