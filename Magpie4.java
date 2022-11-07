@@ -16,9 +16,24 @@ public class Magpie4
 	 * Get a default greeting 	
 	 * @return a greeting
 	 */	
-	public String getGreeting()
-	{
-		return "Hello, let's talk. Do you have anything interesting to start our conversation?";
+	public String getGreeting() {
+		final int NUMBER_OF_RESPONSES = 4;
+		double r = Math.random();
+		int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
+		String response = "";
+		
+		if (whichResponse == 0) {
+			response = "Hi! Do you have something interesting to start off our conversation?";
+		} else if (whichResponse == 1) {
+			response = "Hello! Would you like to talk about travel? It's my favorite topic!";
+		} else if (whichResponse == 2) {
+			response = "Hey! How are you doing today?";
+		}
+		else if (whichResponse == 3) {
+			response = "Hello! Do you want to chat with me for a little bit? We can talk about travel!";
+		}
+
+		return response;
 	}
 	
 	/**
@@ -47,7 +62,7 @@ public class Magpie4
 		{
 			response = transformIWantToStatement(statement);
       response += " Would you like some travel tips?";
-		} else if (findKeyword(statement, "yes") >= 0) {
+		} else if (findKeyword(statement, "yes") >= 0 || findKeyword (statement, "sure") >= 0) {
       response = travelTips();
     }
 
@@ -127,14 +142,14 @@ public class Magpie4
 		String response = "";
 		
 		if (whichResponse == 0) {
-			response = "I don't really know what else to say. That;s a really interesting point.";
+			response = "Fun Fact! The world’s longest commercial flight took around 30 hours.";
 		} else if (whichResponse == 1) {
-			response = "Hmmm. That's interesting";
+			response = "Planning a trip makes you 8% happier. Consider going on a trip sometime soon!";
 		} else if (whichResponse == 2) {
-			response = "I think that's cool! I also have a fun fact to share. Did you know that jet lag is worse after traveling east than west?";
+			response = "France, Italy, China, USA and Spain are the top 5 countries that attract most tourists in the world. Consider visiting one soon! There is a lot of new things to discover.";
 		}
 		else if (whichResponse == 3) {
-			response = "I'm a bit confused right now. I suggest elaborating a little more or changing the topic so that I can follow!";
+			response = "Egypt and India are the cheapest countries for a taxi ride. Switzerland is the most expensive. Consider visiting sometime! All of these countries have amazing cultures and you will be able to learn a lot.";
 		}
 
 		return response;
@@ -205,19 +220,18 @@ public class Magpie4
 	 * Pick a default response to use if nothing else fits.
 	 * @return a non-committal string
 	 */
-	private String getRandomResponse()
-	{
+	private String getRandomResponse() {
 		final int NUMBER_OF_RESPONSES = 4;
 		double r = Math.random();
 		int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
 		String response = "";
 		
 		if (whichResponse == 0) {
-			response = "I don't really know what else to say. That;s a really interesting point.";
+			response = "I don't really know what else to say. That's a really interesting point.";
 		} else if (whichResponse == 1) {
 			response = "Hmmm. That's interesting";
 		} else if (whichResponse == 2) {
-			response = "I think that's cool! I also have a fun fact to share. Did you know that jet lag is worse after traveling east than west?";
+			response = "I think that's cool! I also have a fun fact to share. Did you know that jet lag is worse after traveling east than west? Maybe we should talk a little bit more about travel?";
 		}
 		else if (whichResponse == 3) {
 			response = "I'm a bit confused right now. I suggest elaborating a little more or changing the topic so that I can follow!";
