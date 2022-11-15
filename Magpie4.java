@@ -10,29 +10,30 @@
  * @version April 2012
  *
  */
-public class Magpie4
-{
+public class Magpie4 {
 	/**
 	 * Get a default greeting 	
 	 * @return a greeting
 	 */	
+   private Boolean state0, state1, state2, state3, state4;
+   int currState;
+  
 	public String getGreeting() {
 		final int NUMBER_OF_RESPONSES = 4;
 		double r = Math.random();
 		int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
 		String response = "";
-		
-		if (whichResponse == 0) {
-			response = "Hi! Do you have something interesting to start off our conversation?";
-		} else if (whichResponse == 1) {
-			response = "Hello! Would you like to talk about travel? It's my favorite topic!";
-		} else if (whichResponse == 2) {
-			response = "Hey! How are you doing today?";
-		}
-		else if (whichResponse == 3) {
-			response = "Hello! Do you want to chat with me for a little bit? We can talk about travel!";
-		}
 
+    switch(whichResponse) {
+      case 0:
+        response = "Hi! Do you have something interesting to start off our conversation?";
+      case 1:
+        response = "Hello! Would you like to talk about travel? It's my favorite topic!";
+      case 2:
+        response = "Hey! How are you doing today?";
+      case 3:
+        response = "Hello! Do you want to chat with me for a little bit? We can talk about travel!"; 
+    }
 		return response;
 	}
 	
