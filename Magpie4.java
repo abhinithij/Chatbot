@@ -15,10 +15,10 @@ public class Magpie4 {
 	 * Get a default greeting 	
 	 * @return a greeting
 	 */	
-   private Boolean state0, state1, state2, state3, state4;
-   int currState;
+  private Boolean state0 = false, state1 = false, state2 = false, state3 = false, state4 = false, state5 = false, state6 = false;
+  int currState;
   
-	public String getGreeting() {
+  public String getGreeting() {
 		final int NUMBER_OF_RESPONSES = 4;
 		double r = Math.random();
 		int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
@@ -44,47 +44,128 @@ public class Magpie4 {
 	 *            the user statement
 	 * @return a response based on the rules given
 	 */
-	public String getResponse(String statement)
+
+  public int changeState(String state) {
+    switch(state){
+      case "state0":
+        state0 = true;
+        state1 = false;
+        state2 = false;
+        state3 = false;
+        state4 = false;
+        state5 = false;
+        state6 = false;
+        currState = 0;
+      case "state1":
+        state0 = false;
+        state1 = true;
+        state2 = false;
+        state3 = false;
+        state4 = false;
+        state5 = false;
+        state6 = false;
+        currState = 1;
+      case "state2":
+        state0 = false;
+        state1 = false;
+        state2 = true;
+        state3 = false;
+        state4 = false;
+        state5 = false;
+        state6 = false;
+        currState = 2;
+      case "state3":
+        state0 = false;
+        state1 = false;
+        state2 = false;
+        state3 = true;
+        state4 = false;
+        state5 = false;
+        state6 = false;
+        currState = 3;
+      case "state4":
+        state0 = true;
+        state1 = false;
+        state2 = false;
+        state3 = false;
+        state4 = false;
+        state5 = false;
+        state6 = false;
+        currState = 4;
+      case "state5":
+        state0 = false;
+        state1 = false;
+        state2 = false;
+        state3 = false;
+        state4 = false;
+        state5 = true;
+        state6 = false;
+        currState = 5;
+      case "state6":
+        state0 = false;
+        state1 = false;
+        state2 = false;
+        state3 = false;
+        state4 = false;
+        state5 = false;
+        state6 = true;
+        currState = 6;
+    }
+    return currState;
+  }
+  
+	public int getState(String statement)
 	{
-		String response = "";
 		if (statement.length() == 0) {
-			response = "Say something, please.";
+      changeState("state0");
 		} else if (findKeyword(statement, "no") >= 0) {
-			response = "What's the problem? Perhaps traveling can make everything better? I have a couple great tips to share!";
+      changeState("state1");
 		} else if (findKeyword(statement, "mother") >= 0
 				|| findKeyword(statement, "father") >= 0
 				|| findKeyword(statement, "sister") >= 0
 				|| findKeyword(statement, "brother") >= 0) {
-			response = "Tell me more about your family. Maybe I can suggest some places to travel that could be fun!";
-		}
-
-		// Responses which require transformations
-		else if (findKeyword(statement, "I want to", 0) >= 0)
-		{
-			response = transformIWantToStatement(statement);
-      response += " Would you like some travel tips?";
+      changeState("state2");
+		} else if (findKeyword(statement, "I want to", 0) >= 0) {
+      changeState("state3");
 		} else if (findKeyword(statement, "yes") >= 0 || findKeyword (statement, "sure") >= 0) {
-      response = travelTips();
-    }
-
-		else
-		{
+      changeState("state4");
+    } else {
 			// Look for a two word (you <something> me)
 			// pattern
 			int psn = findKeyword(statement, "you", 0);
 
-			if (psn >= 0
-					&& findKeyword(statement, "me", psn) >= 0)
-			{
-				response = transformYouMeStatement(statement);
-			}
-			else
-			{
-				response = getRandomResponse();
+			if (psn >= 0 && findKeyword(statement, "me", psn) >= 0) {
+        changeState("state5");
+			} else {
+        changeState("state6");
 			}
 		}
-		return response;
+		return currState;
 	}
+
+  public String stateMachine(String statement) {
+    getState(statement);
+    String response = "";
+    switch(currState) {
+      case 0:
+        response = "Say something, please.";
+      case 1:
+        response = "What's the problem? Perhaps traveling can make everything better? I have a couple great tips to share!";
+      case 2:
+        response = "Tell me more about your family. Maybe I can suggest some places to travel that could be fun!";
+      case 3:
+        response = transformIWantToStatement(statement);
+        response += " Would you like some travel tips?";
+      case 4:
+        response = travelTips();
+      case 5:
+        response = transformYouMeStatement(statement);
+      case 6:
+        response = getRandomResponse();
+    }
+
+    return response;
+  }
 	
 	/**
 	 * Take a statement with "I want to <something>." and transform it into 
